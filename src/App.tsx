@@ -1,9 +1,9 @@
 import React from "react";
+import AppLayout from "@/components/layout";
+import "@/assets/style/index.less";
 
 function App() {
-  return (
-    <h1>Hello react-surround</h1>
-  );
+  return <AppLayout />;
 }
 
 export default App;
