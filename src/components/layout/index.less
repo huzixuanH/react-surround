@@ -1,27 +1,5 @@
-.title {
+.layout {
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @keyframes rotate {
-    0% {
-      transform: rotate(0);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .logo {
-    animation-iteration-count: infinite;
-    height: 70%;
-    animation-name: rotate;
-    animation-duration: 3s;
-    animation-timing-function: linear;
-  }
-
-  h2 {
-    margin-left: 16px;
-  }
+  flex-direction: column;
+  height: 100%;
 }
