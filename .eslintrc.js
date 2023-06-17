@@ -1,3 +1,7 @@
+const OFF = 0;
+const WARN = 1;
+const ERROR = 2;
+
 module.exports = {
   env: {
     browser: true,
@@ -35,5 +39,14 @@ module.exports = {
       node: true,
     },
   },
-  rules: {},
+  rules: {
+    // eslint (http://eslint.cn/docs/rules)
+    "no-var": ERROR,
+    "no-multiple-empty-lines": [ERROR, { max: 1 }],
+    "no-use-before-define": OFF,
+    "no-redeclare": WARN,
+
+    // typescript (https://typescript-eslint.io/rules)
+    "@typescript-eslint/no-unused-vars": ERROR,
+  },
 };

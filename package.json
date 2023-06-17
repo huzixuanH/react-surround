@@ -87,8 +87,8 @@
     "last 2 versions"
   ],
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
-    "*.{js,jsx,ts,tsx,css,less,md}": "prettier --write",
-    "*.{css,less}": "stylelint --cache --fix"
+    "**/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "**/*.{js,jsx,ts,tsx,css,less,md}": "prettier --write",
+    "**/*.{css,less}": "stylelint --cache --fix"
   }
 }
