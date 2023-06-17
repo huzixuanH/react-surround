@@ -1,4 +1,3 @@
-import React from "react";
 import AppLayout from "@/components/layout";
 import "@/assets/style/index.less";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";

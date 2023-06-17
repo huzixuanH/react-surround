@@ -5,7 +5,7 @@
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@": ["src"],
