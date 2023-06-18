@@ -1,7 +1,8 @@
 import React from "react";
 import { Layout, theme } from "antd";
+import { Outlet } from "react-router-dom";
 import HeaderLayout from "@/components/layout/header";
-import SiderLayout from "@/components/layout/sider-layout";
+import SiderLayout from "@/components/layout/sider";
 import "./index.less";
 
 const { Content } = Layout;
@@ -24,7 +25,7 @@ const AppLayout: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            Content
+            <Outlet />
           </Content>
         </Layout>
       </Layout>

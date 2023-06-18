@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
+import { TableOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import { ItemType } from "antd/es/menu/hooks/useItems";
+import { useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
@@ -20,6 +22,31 @@ const SiderLayout: React.FC = () => {
     };
   }, []);
 
+  const navigate = useNavigate();
+
+  const onClick = ({ keyPath }: { key: string; keyPath: string[] }) => {
+    const path = keyPath.reverse().join("/");
+    navigate(path);
+  };
+
+  const menuTimes: ItemType[] = [
+    {
+      key: "table",
+      icon: <TableOutlined />,
+      label: "表格",
+      children: [
+        {
+          key: "basic",
+          label: "基本表格",
+        },
+        {
+          key: "virtual",
+          label: "虚拟列表",
+        },
+      ],
+    },
+  ];
+
   return (
     <Sider
       theme="light"
@@ -30,14 +57,9 @@ const SiderLayout: React.FC = () => {
       <Menu
         theme="light"
         mode="inline"
-        defaultSelectedKeys={["1"]}
-        items={[
-          {
-            key: "1",
-            icon: <UserOutlined />,
-            label: "nav 1",
-          },
-        ]}
+        defaultSelectedKeys={["basic"]}
+        items={menuTimes}
+        onClick={(item) => onClick(item)}
       />
     </Sider>
   );

@@ -1,22 +1,9 @@
-import AppLayout from "@/components/layout";
+import { RouterProvider } from "react-router-dom";
+import rootRouter from "@/router";
 import "@/assets/style/index.less";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <AppLayout />,
-    children: [
-      // {
-      //   path: "contacts/:contactId",
-      //   element: <Contact />,
-      // },
-    ],
-  },
-]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={rootRouter} />;
 }
 
 export default App;
