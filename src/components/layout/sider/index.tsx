@@ -1,13 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import { TableOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useMatches, useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
+const menuItems: ItemType[] = [
+  {
+    key: "/home",
+    icon: <TableOutlined />,
+    label: "首页",
+  },
+  {
+    key: "/table",
+    icon: <TableOutlined />,
+    label: "表格",
+    children: [
+      {
+        key: "/table/basic",
+        label: "基本表格",
+      },
+      {
+        key: "/table/virtual",
+        label: "虚拟列表",
+      },
+    ],
+  },
+];
+
+function extractKeysFromTree(tree: ItemType[], result: Key[] = []) {
+  for (const item of tree) {
+    result.push(item.key);
+    if ((item as any).children)
+      extractKeysFromTree((item as any).children, result);
+  }
+}
+
+const menuKeys: string[] = [];
+extractKeysFromTree(menuItems, menuKeys);
+
 const SiderLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(["home"]);
+  const [openedKeys, setOpenedKeys] = useState<string[]>([]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -22,30 +58,29 @@ const SiderLayout: React.FC = () => {
     };
   }, []);
 
+  const { pathname } = useLocation();
+
+  const matches = useMatches();
+
+  useEffect(() => {
+    const index = matches.findLastIndex((item) =>
+      menuKeys.includes(item.pathname)
+    );
+    if (index !== -1) {
+      setSelectedKeys([matches[index].pathname]);
+      if (index > 0) setOpenedKeys([matches[index - 1].pathname]);
+    }
+  }, [pathname]);
+
   const navigate = useNavigate();
 
-  const onClick = ({ keyPath }: { key: string; keyPath: string[] }) => {
-    const path = keyPath.reverse().join("/");
-    navigate(path);
+  const onMenuItemClick = ({ key }: { key: string; keyPath: string[] }) => {
+    navigate(key);
   };
 
-  const menuTimes: ItemType[] = [
-    {
-      key: "table",
-      icon: <TableOutlined />,
-      label: "表格",
-      children: [
-        {
-          key: "basic",
-          label: "基本表格",
-        },
-        {
-          key: "virtual",
-          label: "虚拟列表",
-        },
-      ],
-    },
-  ];
+  const onOpenChange = (keys: string[]) => {
+    setOpenedKeys(keys);
+  };
 
   return (
     <Sider
@@ -57,9 +92,11 @@ const SiderLayout: React.FC = () => {
       <Menu
         theme="light"
         mode="inline"
-        defaultSelectedKeys={["basic"]}
-        items={menuTimes}
-        onClick={(item) => onClick(item)}
+        selectedKeys={selectedKeys}
+        openKeys={openedKeys}
+        items={menuItems}
+        onClick={(item) => onMenuItemClick(item)}
+        onOpenChange={onOpenChange}
       />
     </Sider>
   );
