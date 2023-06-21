@@ -1,16 +1,16 @@
-import React, { Key, useEffect, useState } from "react";
-import { TableOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { HomeOutlined, TableOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { useLocation, useMatches, useNavigate } from "react-router-dom";
+import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
 
 const { Sider } = Layout;
 
 const menuItems: ItemType[] = [
   {
     key: "/home",
-    icon: <TableOutlined />,
-    label: "首页",
+    icon: <HomeOutlined />,
+    label: <Link to="/home">首页</Link>,
   },
   {
     key: "/table",
@@ -19,26 +19,33 @@ const menuItems: ItemType[] = [
     children: [
       {
         key: "/table/basic",
-        label: "基本表格",
+        label: <Link to="/table/basic">基本表格</Link>,
       },
       {
         key: "/table/virtual",
-        label: "虚拟列表",
+        label: <Link to="/table/virtual">虚拟列表</Link>,
       },
     ],
   },
 ];
 
-function extractKeysFromTree(tree: ItemType[], result: Key[] = []) {
+function extractKeysFromTree(tree: ItemType[]) {
+  let result = {};
   for (const item of tree) {
-    result.push(item.key);
-    if ((item as any).children)
-      extractKeysFromTree((item as any).children, result);
+    const menuItem = item as ItemType & { children?: [] };
+    result[item.key] = !!menuItem?.children;
+    if (menuItem.children) {
+      result = {
+        ...result,
+        ...extractKeysFromTree(menuItem.children),
+      };
+    }
   }
+  return result;
 }
 
-const menuKeys: string[] = [];
-extractKeysFromTree(menuItems, menuKeys);
+/** menuKey: isSubMenu */
+const menuKeysRecord: Record<string, boolean> = extractKeysFromTree(menuItems);
 
 const SiderLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -63,14 +70,21 @@ const SiderLayout: React.FC = () => {
   const matches = useMatches();
 
   useEffect(() => {
-    const index = matches.findLastIndex((item) =>
-      menuKeys.includes(item.pathname)
+    const index = matches.findLastIndex(
+      (item) => menuKeysRecord[item.pathname] === false
     );
     if (index !== -1) {
+      const opens = [];
       setSelectedKeys([matches[index].pathname]);
-      if (index > 0) setOpenedKeys([matches[index - 1].pathname]);
+      if (index > 0) {
+        for (let i = 0; i < index; i++) {
+          if (menuKeysRecord[matches[i].pathname])
+            opens.push(matches[i].pathname);
+        }
+      }
+      if (!collapsed) setOpenedKeys(opens);
     }
-  }, [pathname]);
+  }, [pathname, collapsed]);
 
   const navigate = useNavigate();
 

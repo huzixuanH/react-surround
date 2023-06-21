@@ -12,11 +12,7 @@ const tableRouters: RouteObject[] = [
       },
       {
         path: "virtual",
-        element: <VirtualTable id="123" />,
-        children: [
-          // { index: true, element:  },
-          { path: ":id", element: <VirtualTable id="456" /> },
-        ],
+        element: <VirtualTable id="456" />,
       },
     ],
   },
