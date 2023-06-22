@@ -15,7 +15,7 @@ const AppLayout: React.FC = () => {
   return (
     <div className="layout">
       <HeaderLayout />
-      <Layout style={{ flex: 1 }}>
+      <Layout>
         <SiderLayout />
         <Layout>
           <Content

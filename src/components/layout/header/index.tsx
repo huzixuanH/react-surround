@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout, theme, Space, Image, Typography } from "antd";
 import logo from "@/assets/img/logo.png";
+import "./index.less";
 
 const { Header } = Layout;
 const { Title } = Typography;
@@ -12,12 +13,9 @@ const HeaderLayout: React.FC = () => {
 
   return (
     <Header
+      className="header"
       style={{
-        padding: 0,
         background: colorBgContainer,
-        height: 48,
-        display: "flex",
-        margin: "0 16px",
       }}
     >
       <Space size={12}>

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { HomeOutlined, TableOutlined } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import {
+  HomeOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
+import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+import "./index.less";
 
 const { Sider } = Layout;
 
@@ -98,20 +104,30 @@ const SiderLayout: React.FC = () => {
 
   return (
     <Sider
+      className="sider"
       theme="light"
-      collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
     >
-      <Menu
-        theme="light"
-        mode="inline"
-        selectedKeys={selectedKeys}
-        openKeys={openedKeys}
-        items={menuItems}
-        onClick={(item) => onMenuItemClick(item)}
-        onOpenChange={onOpenChange}
-      />
+      <div className="menu-box">
+        <Menu
+          theme="light"
+          mode="inline"
+          selectedKeys={selectedKeys}
+          openKeys={openedKeys}
+          items={menuItems}
+          onClick={(item) => onMenuItemClick(item)}
+          onOpenChange={onOpenChange}
+        />
+      </div>
+      <Button
+        className="collapse-btn"
+        type="text"
+        block
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      </Button>
     </Sider>
   );
 };
