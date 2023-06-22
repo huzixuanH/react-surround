@@ -8,6 +8,7 @@ import {
 import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+import _ from "lodash";
 import "./index.less";
 
 const { Sider } = Layout;
@@ -76,8 +77,9 @@ const SiderLayout: React.FC = () => {
   const matches = useMatches();
 
   useEffect(() => {
-    const index = matches.findLastIndex(
-      (item) => menuKeysRecord[item.pathname] === false
+    const index = _.findLastIndex(
+      matches,
+      () => (item) => menuKeysRecord[item.pathname] === false
     );
     if (index !== -1) {
       const opens = [];
