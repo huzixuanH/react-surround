@@ -1,40 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  TableOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { Link, useLocation, useMatches, useNavigate } from "react-router-dom";
+import { useLocation, useMatches, useNavigate } from "react-router-dom";
 import _ from "lodash";
 import "./index.less";
 
 const { Sider } = Layout;
-
-const menuItems: ItemType[] = [
-  {
-    key: "/home",
-    icon: <HomeOutlined />,
-    label: <Link to="/home">首页</Link>,
-  },
-  {
-    key: "/table",
-    icon: <TableOutlined />,
-    label: "表格",
-    children: [
-      {
-        key: "/table/basic",
-        label: <Link to="/table/basic">基本表格</Link>,
-      },
-      {
-        key: "/table/virtual",
-        label: <Link to="/table/virtual">虚拟列表</Link>,
-      },
-    ],
-  },
-];
 
 function extractKeysFromTree(tree: ItemType[]) {
   let result = {};
@@ -51,13 +23,14 @@ function extractKeysFromTree(tree: ItemType[]) {
   return result;
 }
 
-/** menuKey: isSubMenu */
-const menuKeysRecord: Record<string, boolean> = extractKeysFromTree(menuItems);
-
-const SiderLayout: React.FC = () => {
+const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<string[]>(["home"]);
   const [openedKeys, setOpenedKeys] = useState<string[]>([]);
+
+  /** menuKey: isSubMenu */
+  const menuKeysRecord: Record<string, boolean> =
+    extractKeysFromTree(menuItems);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -97,7 +70,7 @@ const SiderLayout: React.FC = () => {
   const navigate = useNavigate();
 
   const onMenuItemClick = ({ key }: { key: string; keyPath: string[] }) => {
-    navigate(key);
+    if (selectedKeys?.[0] !== key) navigate(key);
   };
 
   const onOpenChange = (keys: string[]) => {

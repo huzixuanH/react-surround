@@ -1,4 +1,3 @@
-import React from "react";
 import { Layout, theme, Space, Image, Typography } from "antd";
 import logo from "@/assets/img/logo.png";
 import "./index.less";

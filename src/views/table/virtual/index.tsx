@@ -1,5 +1,5 @@
-function VirtualTable({ id }: { id?: string }) {
-  return <>VirtualTable: {id}</>;
+function VirtualTable() {
+  return <>VirtualTable</>;
 }
 
 export default VirtualTable;
