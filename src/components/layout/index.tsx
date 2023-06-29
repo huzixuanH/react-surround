@@ -5,7 +5,7 @@ import SiderLayout from "@/components/layout/sider";
 import "./index.less";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { HomeOutlined, TableOutlined } from "@ant-design/icons";
-import React, { Key, ReactNode } from "react";
+import React, { Key, ReactElement, ReactNode } from "react";
 
 const { Content } = Layout;
 
@@ -50,7 +50,7 @@ const AppLayout: React.FC = () => {
         const { key, label } = breadcrumbItem;
         resultArr.push({
           key,
-          title: label,
+          title: label.props?.children || label,
         });
 
         tree = breadcrumbItem.children;
@@ -63,12 +63,15 @@ const AppLayout: React.FC = () => {
         const { key, label } = breadcrumbItem;
         resultArr.push({
           key,
-          title: label,
+          title: label.props.children,
           menu: {
-            items: tree.map((item: any) => ({
-              key: item.key,
-              label: item.label,
-            })),
+            items: tree.map((item: { key: Key; label: ReactElement }) => {
+              return {
+                key: item.key,
+                label:
+                  key === item.key ? item.label.props.children : item.label,
+              };
+            }),
           },
         });
 
@@ -78,8 +81,6 @@ const AppLayout: React.FC = () => {
 
     return resultArr;
   };
-
-  console.log("arr", getBreadcrumbItems());
 
   return (
     <div className="layout">

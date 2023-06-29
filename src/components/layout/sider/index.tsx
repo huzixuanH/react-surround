@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { useLocation, useMatches, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useMatches } from "react-router-dom";
 import _ from "lodash";
 import "./index.less";
 
@@ -12,7 +12,7 @@ function extractKeysFromTree(tree: ItemType[]) {
   let result = {};
   for (const item of tree) {
     const menuItem = item as ItemType & { children?: [] };
-    result[item.key] = !!menuItem?.children;
+    result[item.key] = menuItem;
     if (menuItem.children) {
       result = {
         ...result,
@@ -29,9 +29,9 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
   const [openedKeys, setOpenedKeys] = useState<string[]>([]);
 
   /** menuKey: isSubMenu */
-  const menuKeysRecord: Record<string, boolean> =
-    extractKeysFromTree(menuItems);
+  const menuKeysRecord: Record<string, any> = extractKeysFromTree(menuItems);
 
+  // 菜单展开与收起
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       const bodyWith = entries[0].contentRect.width;
@@ -49,14 +49,18 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
 
   const matches = useMatches();
 
+  // 选中并展开菜单项
   useEffect(() => {
+    // 被选中的菜单节点index，保证路由前缀相同就能是同一节点选中
     const index = _.findLastIndex(
       matches,
-      () => (item) => menuKeysRecord[item.pathname] === false
+      () => (item) => !menuKeysRecord[item.pathname].children
     );
     if (index !== -1) {
       const opens = [];
       setSelectedKeys([matches[index].pathname]);
+
+      // 展开选中节点的所有父结点
       if (index > 0) {
         for (let i = 0; i < index; i++) {
           if (menuKeysRecord[matches[i].pathname])
@@ -67,11 +71,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
     }
   }, [pathname, collapsed]);
 
-  const navigate = useNavigate();
-
-  const onMenuItemClick = ({ key }: { key: string; keyPath: string[] }) => {
-    if (selectedKeys?.[0] !== key) navigate(key);
-  };
+  if (pathname === "/") return <Navigate to={"/home"} />;
 
   const onOpenChange = (keys: string[]) => {
     setOpenedKeys(keys);
@@ -91,7 +91,6 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
           selectedKeys={selectedKeys}
           openKeys={openedKeys}
           items={menuItems}
-          onClick={(item) => onMenuItemClick(item)}
           onOpenChange={onOpenChange}
         />
       </div>
