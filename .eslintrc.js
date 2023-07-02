@@ -10,15 +10,17 @@ module.exports = {
   root: true,
   /**
    * @see https://github.com/jsx-eslint/eslint-plugin-react
+   * @see https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks
    * @see https://typescript-eslint.io/getting-started
    * @see https://github.com/prettier/eslint-config-prettier
    **/
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
-    "plugin:react/jsx-runtime",
   ],
   parserOptions: {
     ecmaVersion: "latest",
@@ -29,7 +31,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "react-hooks", "@typescript-eslint"],
   parser: "@typescript-eslint/parser",
   settings: {
     react: {

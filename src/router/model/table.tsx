@@ -1,6 +1,6 @@
 import { Navigate, RouteObject } from "react-router-dom";
-import BasicTable from "@/views/table/basic";
-import VirtualTable from "@/views/table/virtual";
+import { SuspenseWrapper as Sw } from "@/components/suspense";
+import { lazy } from "react";
 
 const tableRouters: RouteObject[] = [
   {
@@ -12,11 +12,11 @@ const tableRouters: RouteObject[] = [
       },
       {
         path: "basic",
-        element: <BasicTable />,
+        element: <Sw E={lazy(() => import("@/views/table/basic"))} />,
       },
       {
         path: "virtual",
-        element: <VirtualTable />,
+        element: <Sw E={lazy(() => import("@/views/table/virtual"))} />,
       },
     ],
   },
