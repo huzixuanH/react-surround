@@ -38,18 +38,13 @@ a {
   display: none;
 }
 
-.clearfix::after {
-  visibility: hidden;
-  clear: both;
-  display: block;
-  content: ".";
-  height: 0;
-}
-
-.clearfix {
-  *zoom: 1;
-}
-
 #root {
   height: 100%;
+}
+
+/* 展开菜单时，子菜单显示错乱 */
+.ant-menu-submenu.ant-menu-submenu-popup.ant-menu {
+  .ant-menu.ant-menu-sub.ant-menu-inline {
+    display: none;
+  }
 }
