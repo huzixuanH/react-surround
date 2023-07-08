@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
@@ -28,15 +28,18 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>(["home"]);
   const [openedKeys, setOpenedKeys] = useState<string[]>([]);
 
-  /** menuKey: isSubMenu */
+  /** menuKey: menuItem */
   const menuKeysRecord: Record<string, any> = extractKeysFromTree(menuItems);
 
-  // 菜单展开与收起
+  const preWithRef = useRef<number>(0);
+  // 菜单自动展开与收起
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       const bodyWith = entries[0].contentRect.width;
-      if (bodyWith > 1200) setCollapsed(false);
-      if (bodyWith < 1200) setCollapsed(true);
+      if (preWithRef.current === bodyWith) return;
+      if (preWithRef.current < 1200 && bodyWith > 1200) setCollapsed(false);
+      if (preWithRef.current > 1200 && bodyWith < 1200) setCollapsed(true);
+      preWithRef.current = bodyWith;
     });
     resizeObserver.observe(document.body);
 
