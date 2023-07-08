@@ -37,8 +37,8 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
     const resizeObserver = new ResizeObserver((entries) => {
       const bodyWith = entries[0].contentRect.width;
       if (preWithRef.current === bodyWith) return;
-      if (preWithRef.current < 1200 && bodyWith > 1200) setCollapsed(false);
-      if (preWithRef.current > 1200 && bodyWith < 1200) setCollapsed(true);
+      if (preWithRef.current <= 1200 && bodyWith >= 1200) setCollapsed(false);
+      if (preWithRef.current >= 1200 && bodyWith <= 1200) setCollapsed(true);
       preWithRef.current = bodyWith;
     });
     resizeObserver.observe(document.body);
