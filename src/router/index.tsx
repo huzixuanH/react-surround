@@ -4,6 +4,8 @@ import tableRouters from "@/router/model/table";
 import homeRouters from "@/router/model/home";
 import Login from "@/views/login";
 import Home from "@/views/home";
+import { lazy } from "react";
+import { Sw } from "@/components/suspense";
 
 const rootRouter = createBrowserRouter([
   {
@@ -13,6 +15,10 @@ const rootRouter = createBrowserRouter([
       { index: true, element: <Home /> },
       ...homeRouters,
       ...tableRouters,
+      {
+        path: "*",
+        element: <Sw E={lazy(() => import("@/views/error/404"))} />,
+      },
     ],
   },
   {

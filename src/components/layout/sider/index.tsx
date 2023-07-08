@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { Navigate, useLocation, useMatches } from "react-router-dom";
+import { useLocation, useMatches } from "react-router-dom";
 import _ from "lodash";
 import "./index.less";
 
@@ -70,8 +70,6 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
       if (!collapsed) setOpenedKeys(opens);
     }
   }, [pathname, collapsed]);
-
-  if (pathname === "/") return <Navigate to={"/home"} />;
 
   const onOpenChange = (keys: string[]) => {
     setOpenedKeys(keys);
