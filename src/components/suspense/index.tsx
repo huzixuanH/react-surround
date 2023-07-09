@@ -13,3 +13,10 @@ export const SuspenseWrapper: React.FC<{ E: ElementType }> = ({ E }) => {
     </Suspense>
   );
 };
+
+/**
+ * Suspense Wrapper
+ *
+ * @param {ElementType} E 懒加载的组件
+ * */
+export const Sw = SuspenseWrapper;

@@ -1,5 +1,5 @@
 import { Navigate, RouteObject } from "react-router-dom";
-import { SuspenseWrapper as Sw } from "@/components/suspense";
+import { Sw } from "@/components/suspense";
 import { lazy } from "react";
 
 const tableRouters: RouteObject[] = [

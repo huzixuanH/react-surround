@@ -1,5 +1,11 @@
 import { Breadcrumb, Layout } from "antd";
-import { Link, Outlet, useMatches } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Outlet,
+  useLocation,
+  useMatches,
+} from "react-router-dom";
 import HeaderLayout from "@/components/layout/header";
 import SiderLayout from "@/components/layout/sider";
 import "./index.less";
@@ -34,6 +40,10 @@ const menuItems: ItemType[] = [
 
 const AppLayout: React.FC = () => {
   const matches = useMatches();
+  const { pathname } = useLocation();
+
+  // 自动跳到首页
+  if (pathname === "/") return <Navigate to={"/home"} replace />;
 
   const breadcrumbItemTree = menuItems.find((item) =>
     matches.find((mat) => mat.pathname === item.key)
