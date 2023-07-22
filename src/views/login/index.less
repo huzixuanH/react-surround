@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  width: 100%;
+  padding-top: 64px;
+  justify-content: center;
+
+  .box {
+    width: 256px;
+
+    .setting {
+      .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    .login-btn {
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .other {
+      display: flex;
+
+      svg {
+        height: 18px;
+        width: 18px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          color: blue;
+        }
+      }
+    }
+  }
+}
