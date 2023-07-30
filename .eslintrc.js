@@ -42,6 +42,7 @@ module.exports = {
       node: true,
     },
   },
+  ignorePatterns: ["vite.config.js"],
   rules: {
     // eslint (http://eslint.cn/docs/rules)
     "no-var": ERROR,

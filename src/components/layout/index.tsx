@@ -1,17 +1,12 @@
 import { Breadcrumb, Layout } from "antd";
-import {
-  Link,
-  Navigate,
-  Outlet,
-  useLocation,
-  useMatches,
-} from "react-router-dom";
+import { Link, Outlet, useMatches } from "react-router-dom";
 import HeaderLayout from "@/components/layout/header";
 import SiderLayout from "@/components/layout/sider";
 import "./index.less";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { HomeOutlined, TableOutlined } from "@ant-design/icons";
 import React, { Key, ReactElement, ReactNode } from "react";
+import { MdOutlineFormatShapes } from "react-icons/md";
 
 const { Content } = Layout;
 
@@ -20,6 +15,11 @@ const menuItems: ItemType[] = [
     key: "/home",
     icon: <HomeOutlined />,
     label: <Link to="/home">首页</Link>,
+  },
+  {
+    key: "/drawing-board",
+    icon: <MdOutlineFormatShapes />,
+    label: <Link to="/drawing-board">画板</Link>,
   },
   {
     key: "/table",
@@ -40,10 +40,6 @@ const menuItems: ItemType[] = [
 
 const AppLayout: React.FC = () => {
   const matches = useMatches();
-  const { pathname } = useLocation();
-
-  // 自动跳到首页
-  if (pathname === "/") return <Navigate to={"/home"} replace />;
 
   const breadcrumbItemTree = menuItems.find((item) =>
     matches.find((mat) => mat.pathname === item.key)

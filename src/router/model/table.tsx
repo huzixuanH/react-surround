@@ -1,8 +1,9 @@
-import { Navigate, RouteObject } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Sw } from "@/components/suspense";
 import { lazy } from "react";
+import { CustomRouteObject } from "@/interface";
 
-const tableRouters: RouteObject[] = [
+const tableRouters: CustomRouteObject[] = [
   {
     path: "table",
     children: [
@@ -13,10 +14,12 @@ const tableRouters: RouteObject[] = [
       {
         path: "basic",
         element: <Sw E={lazy(() => import("@/views/table/basic"))} />,
+        icon: "",
       },
       {
         path: "virtual",
         element: <Sw E={lazy(() => import("@/views/table/virtual"))} />,
+        icon: "",
       },
     ],
   },
