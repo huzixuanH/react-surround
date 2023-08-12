@@ -1,5 +1,5 @@
 function VirtualTable() {
-  return <>VirtualTable</>;
+  return <div className="content">VirtualTable</div>;
 }
 
 export default VirtualTable;

@@ -7,6 +7,7 @@ import { ItemType } from "antd/es/menu/hooks/useItems";
 import { HomeOutlined, TableOutlined } from "@ant-design/icons";
 import React, { Key, ReactElement, ReactNode } from "react";
 import { MdOutlineFormatShapes } from "react-icons/md";
+import { useAppSelector } from "@/hooks/redux";
 
 const { Content } = Layout;
 
@@ -40,14 +41,14 @@ const menuItems: ItemType[] = [
 
 const AppLayout: React.FC = () => {
   const matches = useMatches();
-
-  const breadcrumbItemTree = menuItems.find((item) =>
-    matches.find((mat) => mat.pathname === item.key)
-  );
+  const breadcrumb = useAppSelector((state) => state.globalConfig.breadcrumb);
 
   const getBreadcrumbItems = () => {
     const resultArr: { key: Key; title: ReactNode; menu?: any }[] = [];
 
+    const breadcrumbItemTree = menuItems.find((item) =>
+      matches.find((mat) => mat.pathname === item.key)
+    );
     let tree = [breadcrumbItemTree];
     while (tree) {
       if (tree.length === 1) {
@@ -94,8 +95,10 @@ const AppLayout: React.FC = () => {
       <Layout>
         <SiderLayout menuItems={menuItems} />
         <Layout>
-          <Breadcrumb className="breadcrumb" items={getBreadcrumbItems()} />
-          <Content className="content">
+          {breadcrumb && (
+            <Breadcrumb className="breadcrumb" items={getBreadcrumbItems()} />
+          )}
+          <Content>
             <Outlet />
           </Content>
         </Layout>
