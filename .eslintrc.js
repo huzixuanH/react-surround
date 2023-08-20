@@ -42,7 +42,7 @@ module.exports = {
       node: true,
     },
   },
-  ignorePatterns: ["vite.config.js"],
+  ignorePatterns: ["vite.config.js", "postcss.config.js"],
   rules: {
     // eslint (http://eslint.cn/docs/rules)
     "no-var": ERROR,

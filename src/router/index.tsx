@@ -6,6 +6,7 @@ import drawingRouters from "@/router/model/drawing";
 import Login from "@/views/login";
 import { lazy } from "react";
 import { Sw } from "@/components/suspense";
+import echartsRouters from "./model/echarts";
 
 const rootRouter = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const rootRouter = createBrowserRouter([
     children: [
       ...homeRouters,
       ...drawingRouters,
+      ...echartsRouters,
       ...tableRouters,
       {
         index: true,
@@ -30,7 +32,5 @@ const rootRouter = createBrowserRouter([
     element: <Login />,
   },
 ]);
-
-console.log(rootRouter.routes[0]);
 
 export default rootRouter;

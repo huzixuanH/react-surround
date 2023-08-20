@@ -4,7 +4,11 @@ import HeaderLayout from "@/components/layout/header";
 import SiderLayout from "@/components/layout/sider";
 import "./index.less";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import { HomeOutlined, TableOutlined } from "@ant-design/icons";
+import {
+  BarChartOutlined,
+  HomeOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
 import React, { Key, ReactElement, ReactNode } from "react";
 import { MdOutlineFormatShapes } from "react-icons/md";
 import { useAppSelector } from "@/hooks/redux";
@@ -21,6 +25,11 @@ const menuItems: ItemType[] = [
     key: "/drawing-board",
     icon: <MdOutlineFormatShapes />,
     label: <Link to="/drawing-board">画板</Link>,
+  },
+  {
+    key: "/echarts",
+    icon: <BarChartOutlined />,
+    label: <Link to="/echarts">图表</Link>,
   },
   {
     key: "/table",
