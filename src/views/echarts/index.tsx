@@ -27,11 +27,6 @@ function Echarts() {
         style={{ width: 300, height: 300 }}
         className="content"
       />
-      <div
-        ref={echartsRef}
-        style={{ width: 300, height: 300 }}
-        className="content"
-      />
     </>
   );
 }

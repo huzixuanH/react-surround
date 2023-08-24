@@ -5,6 +5,9 @@ const homeRouters: CustomRouteObject[] = [
   {
     path: "home",
     element: <Home />,
+    position: 1,
+    name: "首页",
+    icon: "HomeOutlined",
   },
 ];
 

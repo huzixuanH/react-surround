@@ -4,9 +4,9 @@ import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { useLocation, useMatches } from "react-router-dom";
 import _ from "lodash";
-import "./index.less";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { setCollapsed } from "@/store/model/global-config";
+import "./index.less";
 
 const { Sider } = Layout;
 
@@ -32,7 +32,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
   const { collapsed } = useAppSelector((state) => state.globalConfig);
   const dispatch = useAppDispatch();
 
-  const updateCollapsed = (isCollapsed) => {
+  const updateCollapsed = (isCollapsed: boolean) => {
     dispatch(setCollapsed({ collapsed: isCollapsed }));
   };
 
@@ -67,7 +67,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
     // 被选中的菜单节点index，保证路由前缀相同就能是同一节点选中
     const index = _.findLastIndex(
       matches,
-      () => (item) => !menuKeysRecord[item.pathname].children
+      (item) => !menuKeysRecord[item.pathname]?.children
     );
     if (index !== -1) {
       const opens = [];

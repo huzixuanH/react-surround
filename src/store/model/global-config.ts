@@ -4,6 +4,7 @@ import { GlobalConfig } from "@/store/interface";
 const initialState: GlobalConfig = {
   collapsed: false,
   breadcrumb: false,
+  menuItems: [],
 };
 
 const globalConfigSlice = createSlice({
@@ -16,9 +17,13 @@ const globalConfigSlice = createSlice({
     setBreadcrumb(state, action: PayloadAction<Partial<GlobalConfig>>) {
       state.breadcrumb = action.payload.breadcrumb;
     },
+    setMenuItems(state, action: PayloadAction<Partial<GlobalConfig>>) {
+      state.menuItems = action.payload.menuItems;
+    },
   },
 });
 
-export const { setCollapsed, setBreadcrumb } = globalConfigSlice.actions;
+export const { setCollapsed, setBreadcrumb, setMenuItems } =
+  globalConfigSlice.actions;
 
 export default globalConfigSlice.reducer;

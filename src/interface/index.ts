@@ -1,5 +1,5 @@
 import { IndexRouteObject, NonIndexRouteObject } from "react-router-dom";
-import React from "react";
+import { ReactNode } from "react";
 import { ComposeOption } from "echarts/core";
 import { BarSeriesOption, LineSeriesOption } from "echarts/charts";
 import {
@@ -11,10 +11,8 @@ import {
 
 export type CustomRouteObject = (
   | IndexRouteObject
-  | (Omit<NonIndexRouteObject, "children"> & {
-      children?: CustomRouteObject[];
-    })
-) & { icon?: React.ReactNode };
+  | (Omit<NonIndexRouteObject, "children"> & { children?: CustomRouteObject[] })
+) & { icon?: ReactNode; position?: ReactNode; name?: ReactNode };
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
 export type ECOption = ComposeOption<

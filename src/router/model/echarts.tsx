@@ -6,6 +6,9 @@ const echartsRouters: CustomRouteObject[] = [
   {
     path: "echarts",
     element: <Sw E={lazy(() => import("@/views/echarts"))} />,
+    position: 3,
+    name: "图表",
+    icon: "BarChartOutlined",
   },
 ];
 

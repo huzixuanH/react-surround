@@ -2,60 +2,44 @@ import { Breadcrumb, Layout } from "antd";
 import { Link, Outlet, useMatches } from "react-router-dom";
 import HeaderLayout from "@/components/layout/header";
 import SiderLayout from "@/components/layout/sider";
-import "./index.less";
 import { ItemType } from "antd/es/menu/hooks/useItems";
-import {
-  BarChartOutlined,
-  HomeOutlined,
-  TableOutlined,
-} from "@ant-design/icons";
-import React, { Key, ReactElement, ReactNode } from "react";
-import { MdOutlineFormatShapes } from "react-icons/md";
+import { Key, ReactElement, ReactNode } from "react";
 import { useAppSelector } from "@/hooks/redux";
+import * as icons from "@/utils/menu-icon";
+import _ from "lodash";
+import "./index.less";
 
 const { Content } = Layout;
 
-const menuItems: ItemType[] = [
-  {
-    key: "/home",
-    icon: <HomeOutlined />,
-    label: <Link to="/home">首页</Link>,
-  },
-  {
-    key: "/drawing-board",
-    icon: <MdOutlineFormatShapes />,
-    label: <Link to="/drawing-board">画板</Link>,
-  },
-  {
-    key: "/echarts",
-    icon: <BarChartOutlined />,
-    label: <Link to="/echarts">图表</Link>,
-  },
-  {
-    key: "/table",
-    icon: <TableOutlined />,
-    label: "表格",
-    children: [
-      {
-        key: "/table/basic",
-        label: <Link to="/table/basic">基本表格</Link>,
-      },
-      {
-        key: "/table/virtual",
-        label: <Link to="/table/virtual">虚拟列表</Link>,
-      },
-    ],
-  },
-];
+const getIcon = (name: string) => {
+  const Icon = icons[name];
+  return <Icon />;
+};
+
+const buildMenuItems = (menuItems: any[]) => {
+  const queue = [...menuItems];
+  while (queue.length) {
+    const item = queue.pop();
+    const { key, label, children, icon } = item;
+    item.label = children ? label : <Link to={key as string}>{label}</Link>;
+    if (icon) item.icon = getIcon(icon);
+    if (children) queue.push(...children);
+  }
+  return menuItems as ItemType[];
+};
 
 const AppLayout: React.FC = () => {
   const matches = useMatches();
-  const breadcrumb = useAppSelector((state) => state.globalConfig.breadcrumb);
+  const { breadcrumb, menuItems } = useAppSelector(
+    (state) => state.globalConfig
+  );
+
+  const antdMenuItems = buildMenuItems(_.cloneDeep(menuItems));
 
   const getBreadcrumbItems = () => {
     const resultArr: { key: Key; title: ReactNode; menu?: any }[] = [];
 
-    const breadcrumbItemTree = menuItems.find((item) =>
+    const breadcrumbItemTree = antdMenuItems.find((item) =>
       matches.find((mat) => mat.pathname === item.key)
     );
     let tree = [breadcrumbItemTree];
@@ -102,7 +86,7 @@ const AppLayout: React.FC = () => {
     <div className="layout">
       <HeaderLayout />
       <Layout>
-        <SiderLayout menuItems={menuItems} />
+        <SiderLayout menuItems={antdMenuItems} />
         <Layout>
           {breadcrumb && (
             <Breadcrumb className="breadcrumb" items={getBreadcrumbItems()} />

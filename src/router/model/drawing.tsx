@@ -6,6 +6,9 @@ const drawingRouters: CustomRouteObject[] = [
   {
     path: "drawing-board",
     element: <Sw E={lazy(() => import("@/views/drawing"))} />,
+    position: 2,
+    name: "画板",
+    icon: "MdOutlineFormatShapes",
   },
 ];
 
