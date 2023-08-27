@@ -18,16 +18,15 @@ function Echarts() {
     ],
   };
 
-  const [echartsRef] = useEcharts<HTMLDivElement>(option);
+  const [echartsRef] = useEcharts<HTMLDivElement>(option, {
+    width: 200,
+    height: 200,
+  });
 
   return (
-    <>
-      <div
-        ref={echartsRef}
-        style={{ width: 300, height: 300 }}
-        className="content"
-      />
-    </>
+    <div className="content">
+      <div ref={echartsRef} style={{ width: 400, height: 400 }} />
+    </div>
   );
 }
 

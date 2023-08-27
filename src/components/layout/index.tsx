@@ -16,6 +16,7 @@ const getIcon = (name: string) => {
   return <Icon />;
 };
 
+/** 构建菜单项 */
 const buildMenuItems = (menuItems: any[]) => {
   const queue = [...menuItems];
   while (queue.length) {
@@ -36,6 +37,7 @@ const AppLayout: React.FC = () => {
 
   const antdMenuItems = buildMenuItems(_.cloneDeep(menuItems));
 
+  /** 面包屑 */
   const getBreadcrumbItems = () => {
     const resultArr: { key: Key; title: ReactNode; menu?: any }[] = [];
 

@@ -1,4 +1,5 @@
-// 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
+/* eslint-disable no-redeclare */
+// 引入 echarts 核心模块，提供 echarts 使用必须要的接口。
 import * as echarts from "echarts/core";
 // 引入柱状图、折线图，图表后缀都为 Chart
 import { BarChart, LineChart } from "echarts/charts";
@@ -17,7 +18,7 @@ import { CanvasRenderer } from "echarts/renderers";
 import { useEffect, useRef } from "react";
 import { ECOption } from "@/interface";
 
-// 注册必须的组件
+// 注册组件
 echarts.use([
   TitleComponent,
   TooltipComponent,
@@ -31,17 +32,40 @@ echarts.use([
   CanvasRenderer,
 ]);
 
-const useEcharts = <T extends HTMLElement>(option: ECOption) => {
-  const ref = useRef<T>(null);
+type EChartsInitOpts = Parameters<typeof echarts.init>[2];
 
-  console.log(option);
+function useEcharts<T extends HTMLElement>(
+  option: ECOption,
+  theme: string | object | null
+): React.MutableRefObject<T>[];
+function useEcharts<T extends HTMLElement>(
+  option: ECOption,
+  opts: EChartsInitOpts
+): React.MutableRefObject<T>[];
+function useEcharts<T extends HTMLElement>(
+  option: ECOption,
+  theme?: string | object | null,
+  opts?: EChartsInitOpts
+): React.MutableRefObject<T>[];
+
+function useEcharts<T extends HTMLElement>(
+  option: ECOption,
+  theme?: string | object | null,
+  opts?: EChartsInitOpts
+) {
+  const ref = useRef<T>();
 
   useEffect(() => {
-    const charts = echarts.init(ref.current);
+    if (!ref.current) return;
+    const charts = echarts.init(ref.current, theme, opts);
     charts.setOption(option);
-  }, [option]);
+
+    return () => {
+      charts?.dispose();
+    };
+  }, [option, theme, opts]);
 
   return [ref];
-};
+}
 
 export default useEcharts;

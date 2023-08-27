@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import AppLayout from "@/components/layout";
 import Login from "@/views/login";
 import { lazy } from "react";
-import _ from "lodash";
 import { Sw } from "@/components/suspense";
 import { CustomRouteObject } from "@/interface";
 import { store } from "@/store";
@@ -59,9 +58,9 @@ const rootRouter = (function generateRootRouter() {
     },
   ];
 
-  const menusInRoute = _.cloneDeep(
-    routerArray.filter((router) => !!router.position)
-  ).sort((r1, r2) => +r1.position - +r2.position);
+  const menusInRoute = routerArray
+    .filter((router) => !!router.position)
+    .sort((r1, r2) => +r1.position - +r2.position);
 
   store.dispatch(setMenuItems({ menuItems: buildMenuItems(menusInRoute, "") }));
 
