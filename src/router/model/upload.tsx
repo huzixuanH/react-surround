@@ -6,7 +6,7 @@ const uploadRouters: CustomRouteObject[] = [
   {
     path: "upload",
     element: <Sw E={lazy(() => import("@/views/upload"))} />,
-    position: 3,
+    position: 5,
     name: "文件上传",
     icon: "MdUploadFile",
   },
