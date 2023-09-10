@@ -1,5 +1,5 @@
-import { service } from "@/api";
+import { request } from "@/api";
 export const login = async () =>
-  service.get<string[]>({
+  request.get<string[]>({
     url: "/repos/javascript-tutorial/en.javascript.info/commits",
   });

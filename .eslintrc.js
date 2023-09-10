@@ -53,6 +53,7 @@ module.exports = {
     // typescript (https://typescript-eslint.io/rules)
     "@typescript-eslint/no-unused-vars": ERROR,
     "@typescript-eslint/no-explicit-any": OFF,
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "_" }], // 声明变量未被使用
 
     "react/prop-types": OFF,
   },

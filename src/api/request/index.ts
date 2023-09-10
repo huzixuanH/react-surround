@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import axios from "axios";
-import { checkStatus } from "@/api/util";
+import { checkErrorStatus } from "@/api/util";
 
 /** axios 封装 */
 class Request {
@@ -27,8 +27,8 @@ class Request {
       },
       (e) => {
         const { response } = e;
-        if (e.message.indexOf("timeout") !== -1) checkStatus(408);
-        else checkStatus(response?.status);
+        if (e.message.indexOf("timeout") !== -1) checkErrorStatus(408);
+        else checkErrorStatus(response?.status);
 
         return e;
       }

@@ -4,7 +4,7 @@ import { message } from "antd";
  * 显示请求错误信息
  * @param {Number} status
  */
-export const checkStatus = (status: number) => {
+export const checkErrorStatus = (status: number) => {
   switch (status) {
     case 400:
       message.error("请求失败！请稍后重试。");
