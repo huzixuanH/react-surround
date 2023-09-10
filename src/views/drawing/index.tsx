@@ -1,6 +1,6 @@
 import "./index.less";
-import ViewArea from "@/views/drawing/view-area";
-import PropertiesPanel from "@/views/drawing/properties-panel";
+import ViewArea from "@/views/drawing/components/view-area";
+import PropertiesPanel from "@/views/drawing/components/properties-panel";
 
 function Drawing() {
   return (
