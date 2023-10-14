@@ -4,6 +4,8 @@ import { Button, Layout, Menu } from "antd";
 import { ItemType } from "antd/es/menu/hooks/useItems";
 import { useLocation, useMatches } from "react-router-dom";
 import _ from "lodash";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setCollapsed } from "@/store/model/global-config";
 import "./index.less";
 
 const { Sider } = Layout;
@@ -24,12 +26,15 @@ function extractKeysFromTree(tree: ItemType[]) {
 }
 
 const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
-  const [collapsed, setCollapsed] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState<string[]>(["home"]);
   const [openedKeys, setOpenedKeys] = useState<string[]>([]);
 
-  /** menuKey: menuItem */
-  const menuKeysRecord: Record<string, any> = extractKeysFromTree(menuItems);
+  const { collapsed } = useAppSelector((state) => state.globalConfig);
+  const dispatch = useAppDispatch();
+
+  const updateCollapsed = (isCollapsed: boolean) => {
+    dispatch(setCollapsed({ collapsed: isCollapsed }));
+  };
 
   const preWithRef = useRef<number>(0);
   // 菜单自动展开与收起
@@ -37,8 +42,9 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
     const resizeObserver = new ResizeObserver((entries) => {
       const bodyWith = entries[0].contentRect.width;
       if (preWithRef.current === bodyWith) return;
-      if (preWithRef.current <= 1200 && bodyWith >= 1200) setCollapsed(false);
-      if (preWithRef.current >= 1200 && bodyWith <= 1200) setCollapsed(true);
+      if (preWithRef.current <= 1200 && bodyWith >= 1200)
+        updateCollapsed(false);
+      if (preWithRef.current >= 1200 && bodyWith <= 1200) updateCollapsed(true);
       preWithRef.current = bodyWith;
     });
     resizeObserver.observe(document.body);
@@ -46,6 +52,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
     return () => {
       resizeObserver.unobserve(document.body);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { pathname } = useLocation();
@@ -54,10 +61,13 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
 
   // 选中并展开菜单项
   useEffect(() => {
+    /** menuKey: menuItem */
+    const menuKeysRecord: Record<string, any> = extractKeysFromTree(menuItems);
+
     // 被选中的菜单节点index，保证路由前缀相同就能是同一节点选中
     const index = _.findLastIndex(
       matches,
-      () => (item) => !menuKeysRecord[item.pathname].children
+      (item) => !menuKeysRecord[item.pathname]?.children
     );
     if (index !== -1) {
       const opens = [];
@@ -72,6 +82,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
       }
       if (!collapsed) setOpenedKeys(opens);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, collapsed]);
 
   const onOpenChange = (keys: string[]) => {
@@ -83,7 +94,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
       className="sider"
       theme="light"
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      onCollapse={(value) => updateCollapsed(value)}
     >
       <div className="menu-box">
         <Menu
@@ -99,7 +110,7 @@ const SiderLayout: React.FC<{ menuItems: ItemType[] }> = ({ menuItems }) => {
         className="collapse-btn"
         type="text"
         block
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={() => updateCollapsed(!collapsed)}
       >
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
       </Button>

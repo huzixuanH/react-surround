@@ -70,9 +70,9 @@ const data: DataType[] = [
 ];
 function BasicTable() {
   return (
-    <>
+    <div className="content">
       <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />
-    </>
+    </div>
   );
 }
 

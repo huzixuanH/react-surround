@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
+
 export default defineConfig(() => {
   return {
     base: "./",
@@ -15,6 +16,13 @@ export default defineConfig(() => {
       port: 3000,
       open: true,
       cors: true,
+      proxy: {
+        "/api": {
+          target: "http://localhost:9090/",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
     },
     // plugins
     plugins: [react()],
