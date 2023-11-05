@@ -28,8 +28,19 @@ const buildMenuItems = (nodes: CustomRouteObject[], pathPrefix: string) => {
 };
 
 const rootRouter = (function generateRootRouter() {
-  const importModelObject = import.meta.glob("./model/*.tsx", { eager: true });
+  // const importModelObject = import.meta.glob("./model/*.tsx", { eager: true });
   const routerArray: CustomRouteObject[] = [];
+
+  let importModelObject = {};
+  if (!Object.keys(import.meta || {})?.length) {
+    const requireModule = require.context("./model/", true, /\.tsx$/);
+    requireModule.keys().forEach((fileName) => {
+      importModelObject[fileName] = requireModule(fileName);
+    });
+  } else {
+    importModelObject = import.meta.glob("./model/*.tsx", { eager: true });
+  }
+
   Object.values(importModelObject).forEach((item) => {
     Object.values(item).forEach((exportItem: CustomRouteObject[]) => {
       routerArray.push(...exportItem);

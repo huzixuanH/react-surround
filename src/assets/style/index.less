@@ -1,23 +1,24 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  text-size-adjust: none;
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   -webkit-font-smoothing: antialiased;
   background-color: #fff;
-  font: 12px/1.5 "Microsoft YaHei", "Heiti SC", tahoma, arial,
-    "Hiragino Sans GB", "\5B8B\4F53", sans-serif;
-}
-
-em,
-i {
-  font-style: normal;
+  min-height: 100vh;
 }
 
 li {
@@ -31,11 +32,6 @@ img {
 
 a {
   text-decoration: none;
-}
-
-.hide,
-.none {
-  display: none;
 }
 
 #root {
