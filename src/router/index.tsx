@@ -28,7 +28,6 @@ const buildMenuItems = (nodes: CustomRouteObject[], pathPrefix: string) => {
 };
 
 const rootRouter = (function generateRootRouter() {
-  // const importModelObject = import.meta.glob("./model/*.tsx", { eager: true });
   const routerArray: CustomRouteObject[] = [];
 
   let importModelObject = {};
