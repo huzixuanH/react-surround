@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>infinite scrolling</title>
+    <link rel="stylesheet" href="./init.css" />
+    <style>
+      body {
+        background-color: #101010;
+        height: 100vh;
+      }
+      .container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: inherit;
+        margin: 0 1em;
+        overflow-x: hidden;
+        max-width: 600px;
+        border: 1px solid #ffffff;
+
+        --speed: 16s;
+        --play-state: running;
+      }
+
+      ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        gap: 2em;
+        color: #ffffff;
+      }
+
+      ul:nth-child(1) {
+        animation: scroll1 var(--speed) linear infinite var(--play-state);
+      }
+
+      ul:nth-child(2) {
+        animation: scroll2 var(--speed) linear infinite var(--play-state);
+        animation-delay: calc(var(--speed) / -2);
+      }
+
+      li {
+        padding: 0.5em 1em;
+        background-color: #323232;
+        border-radius: 0.5em;
+      }
+
+      @keyframes scroll1 {
+        0% {
+          transform: translateX(100%);
+        }
+
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      @keyframes scroll2 {
+        0% {
+          transform: translateX(0%);
+        }
+
+        100% {
+          transform: translateX(-200%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <ul>
+        <li>CSS</li>
+        <li>HTML</li>
+        <li>JAVASCRIPT</li>
+        <li>TYPESCRIPT</li>
+        <li>REACT</li>
+        <li>VUE</li>
+        <li style="margin-right: 2em">ANGULAR</li>
+      </ul>
+      <ul>
+        <li>CSA</li>
+        <li>HTML</li>
+        <li>JAVASCRIPT</li>
+        <li>TYPESCRIPT</li>
+        <li>REACT</li>
+        <li>VUE</li>
+        <li style="margin-right: 2em">ANGULAR</li>
+      </ul>
+    </main>
+
+    <script>
+      const lis = document.querySelectorAll("li");
+      const container = document.querySelector(".container");
+
+      lis.forEach((li) => {
+        li.onmouseenter = () => {
+          container.style.setProperty("--play-state", "paused");
+        };
+
+        li.onmouseleave = () => {
+          container.style.setProperty("--play-state", "running");
+        };
+      });
+    </script>
+  </body>
+</html>
