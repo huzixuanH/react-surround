@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      #container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      :root {
+        --w: 0;
+        --h: 0;
+        --g: 10px;
+        --t: 0;
+        --l: 0;
+        --v: 1;
+      }
+
+      .item {
+        width: 29.33%;
+        height: 200px;
+        margin: 2%;
+      }
+
+      .selected {
+        position: absolute;
+
+        border: 1px solid rgba(0, 0, 0, var(--v));
+        width: calc(var(--w) + 2 * var(--g));
+        height: calc(var(--h) + 2 * var(--g));
+        top: calc(var(--t) - var(--g));
+        left: calc(var(--l) - var(--g));
+        transition: all 0.4s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="selected"></div>
+      <div class="item" style="background-color: aliceblue">1</div>
+      <div class="item" style="background-color: aqua">2</div>
+      <div class="item" style="background-color: bisque">3</div>
+      <div class="item" style="background-color: chocolate">4</div>
+      <div class="item" style="background-color: violet">5</div>
+      <div class="item" style="background-color: yellow">6</div>
+    </div>
+  </body>
+  <script>
+    let timerId = 0;
+    const items = document.querySelectorAll(".item");
+    const selected = document.querySelector(".selected");
+    items.forEach(function (item, index) {
+      item.onmouseenter = function () {
+        currIndex = index;
+        clearTimeout(timerId);
+        selected.style.setProperty("--t", item.offsetTop + "px");
+        selected.style.setProperty("--l", item.offsetLeft + "px");
+        selected.style.setProperty("--w", item.offsetWidth + "px");
+        selected.style.setProperty("--h", item.offsetHeight + "px");
+        selected.style.setProperty("--v", 1);
+      };
+    });
+
+    selected.onmouseleave = function () {
+      selected.style.setProperty("--v", 0);
+    };
+    selected.onmouseenter = function () {
+      selected.style.setProperty("--v", 1);
+    };
+  </script>
+</html>

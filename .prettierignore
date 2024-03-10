@@ -1,7 +1,6 @@
 # 基于 .gitignore 和 .eslintignore
 build
 dist
-*.html
 **/.git
 **/.svn
 **/.hg
